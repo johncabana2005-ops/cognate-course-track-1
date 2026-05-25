@@ -7,7 +7,7 @@ while pin 9 is used for decrement.
 
 For the push buttons, I used red wires for the positive connections and black wires for the negative connections. 
 I also used 10kΩ resistors for the push buttons. The positive rail of the breadboard is connected to the 5V pin of the Arduino, 
-and the negative rail is connected to the GND pin. The left push button is used for incrementing the number, while the right push 
+and the negative rail is connected to the GND pin. The right push button is used for incrementing the number, while the left push 
 button is used for decrementing it. The programming language I used is C++.
 
 This project demonstrates how a 7-segment display can be controlled using an Arduino Uno R3 and push buttons.
