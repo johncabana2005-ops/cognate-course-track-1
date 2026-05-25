@@ -9,4 +9,4 @@ For the push buttons, I used red wires for the positive connections and black wi
 I also used 10kΩ resistors for the push buttons. The positive rail of the breadboard is
 connected to the 5V pin of the Arduino, and the negative rail is connected to the GND pin.
 The left push button is used for incrementing the number, while the right push button is used for decrementing it.
-The programming language I used is C++.
+The programming language I used is C++. 
