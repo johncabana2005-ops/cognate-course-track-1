@@ -269,3 +269,125 @@ void crushWaste() {
   mode = 1;
   count = 0;
 }
+
+
+
+
+// WALL-E - SLAVE (Motor Controller)
+// Receives commands from Arduino 1
+
+// COMMAND PINS
+int cmd0 = 4;
+int cmd1 = 5;
+int cmd2 = 6;
+int cmd3 = 2;
+
+// MOTORS
+int leftW_A = 8;
+int leftW_B = 9;
+int rightW_A = 10;
+int rightW_B = 11;
+int arm_A = 12;
+int arm_B = 13;
+int crush_A = A0;
+int crush_B = A1;
+
+// COMMANDS
+const int CMD_STOP = 0;
+const int CMD_FORWARD = 1;
+const int CMD_BACKWARD = 2;
+const int CMD_TURN_R = 3;
+const int CMD_TURN_L = 4;
+const int CMD_ARM_UP = 5;
+const int CMD_ARM_DOWN = 6;
+const int CMD_CRUSH_ON = 7;
+const int CMD_CRUSH_OFF = 8;
+
+void setup() {
+  pinMode(cmd0, INPUT);
+  pinMode(cmd1, INPUT);
+  pinMode(cmd2, INPUT);
+  pinMode(cmd3, INPUT);
+
+  pinMode(leftW_A, OUTPUT);
+  pinMode(leftW_B, OUTPUT);
+  pinMode(rightW_A, OUTPUT);
+  pinMode(rightW_B, OUTPUT);
+  pinMode(arm_A, OUTPUT);
+  pinMode(arm_B, OUTPUT);
+  pinMode(crush_A, OUTPUT);
+  pinMode(crush_B, OUTPUT);
+
+  allStop();
+
+  Serial.begin(9600);
+  Serial.println("SLAVE - Motors Ready!");
+}
+
+void loop() {
+  // Read command
+  int cmd = 0;
+  if (digitalRead(cmd0) == HIGH) cmd |= 1;
+  if (digitalRead(cmd1) == HIGH) cmd |= 2;
+  if (digitalRead(cmd2) == HIGH) cmd |= 4;
+  if (digitalRead(cmd3) == HIGH) cmd |= 8;
+
+  // Execute
+  switch (cmd) {
+    case CMD_STOP: allStop(); break;
+    case CMD_FORWARD: forward(); break;
+    case CMD_BACKWARD: backward(); break;
+    case CMD_TURN_R: turnRight(); break;
+    case CMD_TURN_L: turnLeft(); break;
+    case CMD_ARM_UP: armUp(); break;
+    case CMD_ARM_DOWN: armDown(); break;
+    case CMD_CRUSH_ON: crushOn(); break;
+    case CMD_CRUSH_OFF: crushOff(); break;
+  }
+
+  delay(10);
+}
+
+// Motor functions
+void allStop() {
+  digitalWrite(leftW_A, LOW); digitalWrite(leftW_B, LOW);
+  digitalWrite(rightW_A, LOW); digitalWrite(rightW_B, LOW);
+  digitalWrite(arm_A, LOW); digitalWrite(arm_B, LOW);
+  digitalWrite(crush_A, LOW); digitalWrite(crush_B, LOW);
+}
+
+void forward() {
+  digitalWrite(leftW_A, HIGH); digitalWrite(leftW_B, LOW);
+  digitalWrite(rightW_A, HIGH); digitalWrite(rightW_B, LOW);
+}
+
+void backward() {
+  digitalWrite(leftW_A, LOW); digitalWrite(leftW_B, HIGH);
+  digitalWrite(rightW_A, LOW); digitalWrite(rightW_B, HIGH);
+}
+
+void turnRight() {
+  digitalWrite(leftW_A, HIGH); digitalWrite(leftW_B, LOW);
+  digitalWrite(rightW_A, LOW); digitalWrite(rightW_B, HIGH);
+}
+
+void turnLeft() {
+  digitalWrite(leftW_A, LOW); digitalWrite(leftW_B, HIGH);
+  digitalWrite(rightW_A, HIGH); digitalWrite(rightW_B, LOW);
+}
+
+void armUp() {
+  digitalWrite(arm_A, HIGH); digitalWrite(arm_B, LOW);
+}
+
+void armDown() {
+  digitalWrite(arm_A, LOW); digitalWrite(arm_B, HIGH);
+}
+
+void crushOn() {
+  digitalWrite(crush_A, HIGH); digitalWrite(crush_B, LOW);
+}
+
+void crushOff() {
+  digitalWrite(crush_A, LOW); digitalWrite(crush_B, LOW);
+}
